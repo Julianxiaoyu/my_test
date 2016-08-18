@@ -1,0 +1,14 @@
+Test upload
+
+<h1>Adding a new document</h1>
+
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <input type="submit" value="Create" />
+    {{ form_end(form) }}
+
+{% for upload in uploads %}
+	<div>
+			<b>{{ upload.name }}</b><a href="{{ asset('uploads/' ~ upload.document) }}">View document</a> <img src="{{ asset('uploads/' ~ upload.document) }}"> 
+	</div>
+{% endfor %}

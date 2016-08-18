@@ -1,0 +1,85 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<h3>Test geoloc</h3>
+<div id="geoloc">
+
+</div>
+
+<script type="text/javascript">
+
+  var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  var labelIndex = 0;
+
+  function initialize() {
+    map = new google.maps.Map(document.getElementById("geoloc"), {
+          zoom: 13,
+          center: new google.maps.LatLng(48.858565, 2.357198),
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+        });  
+
+    var marker = new google.maps.Marker({
+    position: new google.maps.LatLng(48.858565, 2.347198),
+    map: map,
+    title: 'Hello World!'
+        });
+
+    var marker2 = new google.maps.Marker({
+    position: new google.maps.LatLng(48.868565, 2.357198),
+    map: map,
+    title:"Hello World!"
+        });
+
+    var marker3 = new google.maps.Marker({
+    position: new google.maps.LatLng(48.858565, 2.377198),
+    title:"Hello World!",
+    draggable: true
+    });
+
+    marker3.setMap(map);
+
+    var newLineCoordinates =
+    [
+      new google.maps.LatLng(48.858565, 2.347198),
+      new google.maps.LatLng(48.868565, 2.357198),
+      new google.maps.LatLng(48.858565, 2.377198)
+    ];
+
+    var newLine = new google.maps.Polyline({
+      path: newLineCoordinates,        
+      strokeColor: "#FF0000",
+      strokeOpacity: 1.0,
+      strokeWeight: 2
+    });
+
+    newLine.setMap(map);
+
+    google.maps.event.addListener(marker3, 'dragend', function(a) {
+    console.log('latitude a', a.latLng.lat());
+    });
+
+    google.maps.event.addListener(map, 'click', function(event) {
+      addMarker(event.latLng, map);
+      console.log('latitude event', event.latLng.lat());
+    });
+
+  }
+
+function addMarker(location, map) {
+  // Add the marker at the clicked location, and add the next-available label
+  // from the array of alphabetical characters.
+  var marker = new google.maps.Marker({
+    position: location,
+    label: labels[labelIndex++ % labels.length],
+    map: map
+  });
+}
+
+
+</script>
+
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKoRwoiN_pQDL5up1z4KcoLA-cBHkekn8&signed_in=true&callback=initialize">
+</script>
+
+{% endblock body %}

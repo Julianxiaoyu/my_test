@@ -1,0 +1,361 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+</br>
+
+<div class="col-md-6">
+    <h2>Decouverte photo</h2>
+    <div id="plan0">
+        <div class="smallsquare plan11"></div>
+        <div class="smallsquare1 plan11"></div>
+        <div class="smallsquare" id="plan12"></div>
+        <div class="smallsquare" id="plan13"></div>
+        <div class="smallsquare" id="plan14"></div>
+        <div class="smallsquare" id="plan15"></div>
+        <div class="smallsquare" id="plan16"></div>
+        <div class="smallsquare" id="plan17"></div>
+        <div class="smallsquare" id="plan18"></div>
+        <div class="smallsquare" id="plan21"></div>
+        <div class="smallsquare" id="plan22"></div>
+        <div class="smallsquare" id="plan23"></div>
+        <div class="smallsquare" id="plan24"></div>
+        <div class="smallsquare" id="plan25"></div>
+        <div class="smallsquare" id="plan26"></div>
+        <div class="smallsquare" id="plan27"></div>
+        <div class="smallsquare" id="plan28"></div>
+        <div class="smallsquare" id="plan31"></div>
+        <div class="smallsquare" id="plan32"></div>
+        <div class="smallsquare" id="plan33"></div>
+        <div class="smallsquare" id="plan34"></div>
+        <div class="smallsquare" id="plan35"></div>
+        <div class="smallsquare" id="plan36"></div>
+        <div class="smallsquare" id="plan37"></div>
+        <div class="smallsquare" id="plan38"></div>
+        <div class="smallsquare" id="plan41"></div>
+        <div class="smallsquare" id="plan42"></div>
+        <div class="smallsquare" id="plan43"></div>
+        <div class="smallsquare" id="plan44"></div>
+        <div class="smallsquare" id="plan45"></div>
+        <div class="smallsquare" id="plan46"></div>
+        <div class="smallsquare" id="plan47"></div>
+        <div class="smallsquare" id="plan48"></div>
+    </div>
+    <br/><br/><br/><br/>
+    <h2>Generation grille dynamique</h2>
+    <label>Largeur<input type="text" name="case00" class="sudoku" id="largeurcase" size="1" maxlength="1"></label>
+    <label>Hauteur<input type="text" name="case01" class="sudoku" id="hauteurcase" size="1" maxlength="1"></label>
+    <button type="button" class="btn btn-default" id="gogenerategrille">Generer grille!</button>
+    <div id="grandegrille"></div>
+    <div id="coord_display"></div>
+</div>
+
+<div class="col-md-6 container_sudoku">
+    <h2>Sudoku</h2>
+        <div class="col-md-6">
+            <h4>Votre grille:</h4>
+            <div class="monsudoku">
+                <input type="text" name="case00" class="sudoku" id="case00" size="1" maxlength="1">
+                <input type="text" name="case01" class="sudoku" id="case01" size="1" maxlength="1">
+                <input type="text" name="case02" class="sudoku" id="case02" size="1" maxlength="1">
+                <input type="text" name="case03" class="sudoku" id="case03" size="1" maxlength="1"></br>
+                <input type="text" name="case10" class="sudoku" id="case10" size="1" maxlength="1">
+                <input type="text" name="case11" class="sudoku" id="case11" size="1" maxlength="1">
+                <input type="text" name="case12" class="sudoku" id="case12" size="1" maxlength="1">
+                <input type="text" name="case13" class="sudoku" id="case13" size="1" maxlength="1"></br>
+                <input type="text" name="case20" class="sudoku" id="case20" size="1" maxlength="1">
+                <input type="text" name="case21" class="sudoku" id="case21" size="1" maxlength="1">
+                <input type="text" name="case22" class="sudoku" id="case22" size="1" maxlength="1">
+                <input type="text" name="case23" class="sudoku" id="case23" size="1" maxlength="1"></br>
+                <input type="text" name="case30" class="sudoku" id="case30" size="1" maxlength="1">
+                <input type="text" name="case31" class="sudoku" id="case31" size="1" maxlength="1">
+                <input type="text" name="case32" class="sudoku" id="case32" size="1" maxlength="1">
+                <input type="text" name="case33" class="sudoku" id="case33" size="1" maxlength="1"></br>
+            </div></br>
+                <button type="button" class="btn btn-default" id="gosudoku">Go!</button>
+                <button type="button" class="btn btn-default" id="godemineur">Go demin!</button>
+        </div>
+        <div class="col-md-6">
+            <h4>Résultat:</h4>
+            <div class="monsudoku">
+                <input type="text" name="resu00" class="sudoku" id="resu00" size="1" maxlength="1">
+                <input type="text" name="resu01" class="sudoku" id="resu01" size="1" maxlength="1">
+                <input type="text" name="resu02" class="sudoku" id="resu02" size="1" maxlength="1">
+                <input type="text" name="resu03" class="sudoku" id="resu03" size="1" maxlength="1"></br>
+                <input type="text" name="resu10" class="sudoku" id="resu10" size="1" maxlength="1">
+                <input type="text" name="resu11" class="sudoku" id="resu11" size="1" maxlength="1">
+                <input type="text" name="resu12" class="sudoku" id="resu12" size="1" maxlength="1">
+                <input type="text" name="resu13" class="sudoku" id="resu13" size="1" maxlength="1"></br>
+                <input type="text" name="resu20" class="sudoku" id="resu20" size="1" maxlength="1">
+                <input type="text" name="resu21" class="sudoku" id="resu21" size="1" maxlength="1">
+                <input type="text" name="resu22" class="sudoku" id="resu22" size="1" maxlength="1">
+                <input type="text" name="resu23" class="sudoku" id="resu23" size="1" maxlength="1"></br>
+                <input type="text" name="resu30" class="sudoku" id="resu30" size="1" maxlength="1">
+                <input type="text" name="resu31" class="sudoku" id="resu31" size="1" maxlength="1">
+                <input type="text" name="resu32" class="sudoku" id="resu32" size="1" maxlength="1">
+                <input type="text" name="resu33" class="sudoku" id="resu33" size="1" maxlength="1"></br>
+            </div>
+        </div>
+</div>
+
+<script type="text/javascript" src="{{ asset('js/testform.js') }}" ></script>
+
+<script>
+
+// Grille en dynamique
+//********************
+
+$( "#gogenerategrille" ).click(function() {
+    $("#grandegrille div").remove();
+    var nblargeur = parseInt($('#largeurcase').val());
+    var nbhauteur = parseInt($('#hauteurcase').val());
+    $("#grandegrille").css('width', 50*nblargeur+'px');
+    $("#grandegrille").css('height', 50*nbhauteur+'px');
+
+for (var i=0; i<nbhauteur; i++){
+    for (var j=0; j<nblargeur; j++){
+        $('<div>', {id:"X"+i+j, class:"smallgrille", xval:i } ).css({clear:'both', width: '50px', height: '50px',border: 'white solid 1px', 'background-color': 'blue', position: 'absolute', 'top': 50*i+'px', 'left': 50*j+'px'}).appendTo('#grandegrille');
+    }
+
+}
+
+    console.log("a", "a");
+
+});
+var aa = 0;
+
+$("#grandegrille").on("click", "div.smallgrille", function(){
+  $(this).fadeOut();
+    idval = $(this).attr('id');
+    console.log("idval", idval);
+    xval = $(this).attr('xval');
+    console.log("xval", xval);
+});
+
+
+// Objet demineur ****
+//********************
+function Souscasedemineur(bb) {
+    this.souscase = bb;
+    
+}
+
+function Casedemineur(aa) {
+    this.bombe = aa;
+    this.case = new Souscasedemineur(15);
+}
+
+$( "#godemineur" ).click(function() {
+    var casedemineur = new Casedemineur(12);
+    console.log('casedemineur',casedemineur);
+});
+
+
+// Sudoku ************
+//********************
+
+$( "#gosudoku" ).click(function() {
+    var magrille = new Grillesudoku();
+    magrille.getinput();
+    console.log('magrille',magrille);
+    magrille.solvemethod1();
+    magrille.solvemethod1();
+    magrille.solvemethod1();
+    magrille.solvemethod1();
+    magrille.display();
+});
+
+function Grillesudoku() {
+  var grille = new Array();
+  for(var i=0; i<4; i++){
+    grille[i] = new Array();
+        for(var j=0; j<4; j++){
+        grille[i][j] = 0;
+        }
+  }
+  this.grille = grille;
+  this.correcte = false;
+  this.getinput = function() {
+    for(var i=0; i<4; i++){
+        for(var j=0; j<4; j++){
+            if (($('#case'+i+j).val()>=1) && ($('#case'+i+j).val()<=4)){
+            this.grille[i][j] = parseInt($('#case'+i+j).val());
+            }
+        }
+    }
+  };
+  this.display = function() {
+    for(var i=0; i<4; i++){
+        for(var j=0; j<4; j++){
+            var selection = this.grille[i][j];
+            if (selection != 0){
+                $('#resu'+i+j).val(selection);
+            } else {
+                $('#resu'+i+j).val(" ");
+            }
+        }
+    }
+  };
+  this.remplace9par0 = function() {
+    for(var i=0; i<4; i++){
+        for(var j=0; j<4; j++){
+            if (this.grille[i][j]==9){
+                this.grille[i][j]=0;
+            }
+        }
+    }
+  };
+  this.solvemethod1 = function() {
+    for(var i=0; i<4; i++){
+        for(var j=0; j<4; j++){
+            if (this.grille[i][j]==0){
+                var casetab = [1,2,3,4];
+                //Passage sur la ligne
+                for(var k=0; k<4 ; k++){
+                    if ((this.grille[i][k]>=1) && (this.grille[i][k]<=4)){
+                    var casevalue = this.grille[i][k];
+                    var index = casetab.indexOf(casevalue); 
+                    if (index > -1){
+                        casetab.splice(index,1);
+                        }
+                    }
+                }
+                //Passage sur la colonne
+                for(var l=0; l<4 ; l++){
+                    if ((this.grille[l][j]>=1) && (this.grille[l][j]<=4)){
+                    var casevalue = this.grille[l][j];
+                    var index = casetab.indexOf(casevalue); 
+                    if (index > -1){
+                        casetab.splice(index,1);
+                        }
+                    }
+                }
+                //Passage dans le carré
+                var ii = coordonnees(i,j)[0];
+                var jj = coordonnees(i,j)[1];
+                for(var m=ii; m<ii+2 ; m++){
+                    for(var n=jj; n<jj+2 ; n++){
+                        if ((this.grille[m][n]>=1) && (this.grille[m][n]<=4)){
+                        var casevalue = this.grille[m][n];
+                        var index = casetab.indexOf(casevalue); 
+                        if (index > -1){
+                            casetab.splice(index,1);
+                            }
+                        }
+                    }
+                }
+
+                //Si une seule possibilité
+                if (casetab.length == 1){
+                    this.grille[i][j] = parseInt(casetab[0]);
+                }
+
+            }
+        }
+    }
+  };
+}
+
+function showProps(obj, objName) {
+  var result = "";
+  for (var i in obj) {
+    if (obj.hasOwnProperty(i)) {
+      result += objName + "." + i + " = " + obj[i] + "\n";
+    }
+  }
+  obj.correcte = false;
+  return result;
+}
+
+// Fonction qui retourne les coordonnées le plus en haut a gauche du carré auquel appartient cette case
+// *************************************************************************************
+
+function coordonnees(i,j) {
+    var coor = [];
+    var a;
+    var b;
+       if (i <= 1){
+           a = 0;
+           } else {
+           a = 2;
+       }
+       if (j <= 1){
+       b = 0;
+       } else {
+       b = 2;
+       }
+      coor[0] = a;
+      coor[1] = b;
+      return coor;
+    }
+
+// Fonction qui vérifie qu'une grille est complete et valide remplie retourne true/false
+// *************************************************************************************
+
+function checkvalid(magrille) {
+
+// Je vérifie que chacune de mes lignes sont correctes, sinon je retourne false
+for(var i=0; i<4; i++){ 
+        var lignetab = [1,2,3,4];
+        for(var j=0; j<4; j++){
+            if ((magrille.grille[i][j]>=1) && (magrille.grille[i][j]<=4)){
+                var casevalue = magrille.grille[i][j];
+                var index = lignetab.indexOf(casevalue); 
+                if (index > -1){
+                    lignetab.splice(index,1);
+                }
+
+            }
+        }
+        console.log('lignetab',lignetab);
+        if (lignetab.length != 0){
+            return false;
+        }
+}
+// Je vérifie que chacune de mes colonnes sont correctes, sinon je retourne false
+for(var i=0; i<4; i++){ 
+        var colonnetab = [1,2,3,4];
+        for(var j=0; j<4; j++){
+            if ((magrille.grille[j][i]>=1) && (magrille.grille[j][i]<=4)){
+                var casevalue = magrille.grille[j][i];
+                var index = colonnetab.indexOf(casevalue); 
+                if (index > -1){
+                    colonnetab.splice(index,1);
+                }
+
+            }
+        }
+        if (colonnetab.length != 0){
+            return false;
+        }
+}
+// Je vérifie que chacun de mes carres sont correctes, sinon je retourne false
+for(var i=0; i<3; i+=2){
+    for(var j=0; j<3; j+=2){
+       var carretab = [1,2,3,4];
+       for(var k=i; k<i+2 ; k++){
+           for(var l=j; l<j+2 ; l++){
+                if ((magrille.grille[k][l]>=1) && (magrille.grille[k][l]<=4)){
+                var casevalue = magrille.grille[k][l];
+                var index = carretab.indexOf(casevalue); 
+                    if (index > -1){
+                        carretab.splice(index,1);
+                    }
+
+                }
+           }
+       }
+       if (carretab.length != 0){
+            return false;
+       }
+    }
+}
+return true;
+}
+
+
+</script>
+
+</br></br></br>
+
+{% endblock %}

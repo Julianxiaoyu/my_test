@@ -1,0 +1,77 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<div class="chart">
+    <h3>Test charts</h3>
+    <div class="col-md-4 col-md-offset-4" id="myhighchart">
+    </div>
+</div>
+
+<script>
+$(function () {
+    $(document).ready(function () {
+ 
+        $.ajax({
+                url: "{{ path('highcharts') }}",
+                type: 'POST',
+                success: function(data) {
+
+          
+          var annee = 2016;        
+          var d = data;
+          var dd = data.listcat;
+          console.log("dd",dd);
+          var name = Array();
+          var data = Array();
+          var dataArrayFinal = Array();
+          for(i=0;i<d.listcat.length;i++) { 
+             name[i] = d.listcat[i].name; 
+             data[i] = d.listcat[i].y;  
+          }
+          for(j=0;j<name.length;j++) { 
+             var temp = new Array(name[j],data[j]); 
+             dataArrayFinal[j] = temp;     
+          }
+           console.log("dataArrayFinal",dataArrayFinal);
+                           
+                
+          $('#myhighchart').highcharts({
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false,
+                type: 'pie'
+            },
+            title: {
+                text: 'Browser market shares January, 2015 to May, 2015'
+            },
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                        style: {
+                            color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                        }
+                    }
+                }
+            },
+            series: [{
+              type: 'pie',
+              name: 'Part des catégories',
+              data: dataArrayFinal
+            }]
+          });
+       }});        
+    });
+});    
+          
+</script>
+
+{% endblock body %}

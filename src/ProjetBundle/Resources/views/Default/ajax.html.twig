@@ -1,0 +1,86 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<div class="ajax">
+  <h3>Exemple Ajax 1: Code postal -> Ville </h3>
+   <form action="ajax.php">
+    <label>Code postal: <input type="text" name="codepostal" class="codepostal"></label>
+    <label>Ville: <input type="text" name="ville" class="ville"></label>
+    <input type="submit" value="Submit">
+  </form>
+  <h3>Exemple Ajax 2: Auto-completion ville</h3>
+  <label>Ville: <input type="text" name="autocomp" class="autocomp"></label><br>
+  <div id="suggestion"></div>
+</div>
+
+<script type="text/javascript">
+$("document").ready(function() { 
+    
+    $(".autocomp").keyup(function() {
+        if ($(this).val().length >= 4) {
+            var autocomp = $(this).val();
+            
+            $.ajax({
+               type: 'POST',
+               url: "{{ path('autocomp') }}",
+               data: {autocomp: autocomp},
+               dataType : 'json',
+               beforeSend: function() {
+                  console.log('on charge');
+               },
+               success: function(data) {
+                   console.log('Requete ok',data);
+                    $("#suggestion p").remove();
+                    $( "#suggestion" ).addClass( "greyborder" );
+                    $.each(data.listreturn, function(index,value) {
+                      $("#suggestion").append($('<p>',{ text: value.name }));
+                      $( "#suggestion p" ).addClass( "onesug" );
+                    });
+               },
+               error: function() {
+
+              alert('La requête n\'a pas abouti'); }
+            });
+        } else {
+            $("#suggestion p").remove();
+            $("#suggestion").removeClass("greyborder");
+        }
+    });
+
+    $("#suggestion").on("click", "p.onesug", function(){
+        var selection = $(this).text();
+        $(".autocomp").val(selection);
+        $("#suggestion p").remove();
+        $("#suggestion").removeClass("greyborder");
+    });
+
+    $(".codepostal").keyup(function() {
+        if ($(this).val().length === 5) {
+            var cp = $(this).val();
+            
+            $.ajax({
+               type: 'POST',
+               url: "{{ path('ville') }}",
+               data: {cp: cp},
+               dataType : 'json',
+               beforeSend: function() {
+               		console.log('on charge');
+               },
+               success: function(data) {
+                   $(".ville").val(data.maville);
+                   console.log('requete ok',data);
+               },
+               error: function() {
+
+              alert('La requête n\'a pas abouti'); }
+            });
+        } else {
+            $(".ville").val('');
+        }
+    });
+});
+</script>
+
+
+{% endblock body %}

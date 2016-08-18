@@ -1,0 +1,277 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<div class="container_demineur">
+ 	<h2>Opération démineur du desert</h2>
+ 	<div class="col-md-2 col-md-offset-1" id="block_param">
+		<div id= "block_param_first">
+		</div>	
+		<div id= "block_param_second">   
+			<form>
+			    <div class="form-group row">
+			      <label for="inputEmail3" class="col-sm-6 col-form-label">Colonnes</label>
+			      <div class="col-sm-6">
+			        <input type="text" name="case00" class="sudoku form-control" id="largeurcase" size="2" maxlength="2">
+			      </div>
+			    </div>
+			    <div class="form-group row">
+			      <label for="inputPassword3" class="col-sm-6 col-form-label">Lignes</label>
+			      <div class="col-sm-6">
+			        <input type="text" name="case01" class="sudoku form-control" id="hauteurcase" size="2" maxlength="2">
+			      </div>
+			    </div>
+			    <div class="form-group row">
+			      <label for="inputPassword3" class="col-sm-6 col-form-label">Bombes</label>
+			      <div class="col-sm-6">
+			        <input type="text" name="case02" class="sudoku form-control" id="nbbombs" size="2" maxlength="2">
+			      </div>
+			    </div>
+			    <div class="form-group row form_button">
+			      <div class="col-md-12">
+			        <p><button type="button" class="btn btn-default" id="gogenerategrille">Nouvelle partie!</button></p>
+			      </div>
+			    </div>
+			</form>
+			<div id="statut_partie"></div>
+		</div>
+	</div>
+	
+	<div class="col-md-8 col-md-offset-1 block_grille">
+	    <div id="grandegrille"></div>
+	</div>
+</div>   
+
+<script>
+	var nblargeur = 0;
+	var nbhauteur = 0;
+	var nbbombs = 0;
+	
+	// Demarrage d'une partie
+	$( "#gogenerategrille" ).click(function() {
+		    $("#statut_partie").css("background-color","#cc8400");
+		    $("#grandegrille div").remove();
+		    $("#grandegrille p").remove();
+		    $("#statut_partie p").remove();
+		    nblargeur = parseInt($('#largeurcase').val());
+		    nbhauteur = parseInt($('#hauteurcase').val());
+		    nbbombs = parseInt($('#nbbombs').val());
+
+		    if (nblargeur<=15 && nbhauteur<=10 && nbbombs<nblargeur*nbhauteur){
+			    $("#grandegrille").css('width', 50*nblargeur+'px');
+			    $("#grandegrille").css('height', 50*nbhauteur+'px');
+			    $("#statut_partie").append('<p class="statut">Partie démarrée</p>');
+			    //Initialise une grille de démineur de la taille souhaitée
+				mondemin = createdemintab(nbhauteur,nblargeur);
+				//Génerer des coordonnées aléatoires pour les bombes
+				listcoord=calculatebomb(nblargeur,nbhauteur,nbbombs);
+				//Mettre des 9 aux emplacements des bombes
+				for(var k=0; k<listcoord.length; k++){
+					mondemin[listcoord[k][0]][listcoord[k][1]] = 9;
+				}
+
+				//calculer les cases à proximité des bombes
+				for (var i=0; i<nbhauteur; i++){
+				    for (var j=0; j<nblargeur; j++){
+						if (mondemin[i][j] != 9){
+							var count = 0;						
+							for (var m=i-1; m<=i+1; m++){
+									for (var n=j-1; n<=j+1; n++){
+										if (m>=0 && m<nbhauteur && n>=0 && n<nblargeur){
+											if (mondemin[m][n] == 9){
+												count++;
+											}
+										}            									        
+									}
+							}
+							mondemin[i][j] = count;
+						}			        	        
+				    }
+				}
+				
+				//Generer le HTML
+				for (var i=0; i<nbhauteur; i++){
+				    for (var j=0; j<nblargeur; j++){
+				        $('<div>', {id:"X"+i+""+j, class:"smallgrille", ival:i, jval:j} ).css({clear:'both', width: '50px', height: '50px', padding: '10px',border: 'white solid 1px', 'background-color': '#a36900', position: 'absolute', 'top': 50*i+'px', 'left': 50*j+'px', color: "white", "text-align": "center", "font-weight": "bold", "font-size":"20px"}).appendTo('#grandegrille');
+				    }
+				}
+			} else if (nblargeur>15 || nbhauteur>10) {
+				$("#grandegrille").append('<p class="mess_alert">La nombre de colonnes doit être <15 et le nombre de ligne <10 </p>');
+			} else if (nbbombs>nblargeur*nbhauteur) {
+				$("#grandegrille").append('<p class="mess_alert">Nombre de bombes est supérieur où égal au nombre de case </p>');
+			} else {
+				$("#grandegrille").append('<p class="mess_alert">Veuillez rentrer des chiffres entiers </p>');
+			}
+	});
+
+	// Gestion des click sur les case
+	// Quand une case sera cliqué sa valeur sera négative afin de ne pas la cliquer 2 fois
+
+	$("#grandegrille").on("click", "div.smallgrille", function(){
+
+	    i = $(this).attr('ival');
+	    j = $(this).attr('jval');
+	    
+	    // Si click sur une bombe
+	    // TOute les bombes s'affichent
+	    // Toutes les valeurs des cases passent en négatives
+	    // Le message "partie perdu" s'affiche
+	    if(mondemin[i][j]==9){
+	    	revealbombs(mondemin);
+			for (var l=0; l<mondemin.length; l++){
+			    for (var m=0; m<mondemin[0].length; m++){
+			    	mondemin[l][m]=-9;
+			    }
+			}
+			loosemessage();
+		}
+		
+		// Si click sur une case attenante à une bombe
+		if(mondemin[i][j]>0 && mondemin[i][j]<9){
+	    	$("#X"+i+j).append("<p>"+mondemin[i][j]+"</p>");
+	    	$("#X"+i+j).css("background-color","#cc8400");
+	    	mondemin[i][j]=-1;
+	    	if (checkvictory(mondemin)){
+	    			revealbombs(mondemin);
+	    			victorymessage();
+	    	}
+		}
+
+		if(mondemin[i][j]==0){
+	    	blankcase(i,j,mondemin);
+	    	if (checkvictory(mondemin)){	
+	    			revealbombs(mondemin);
+	    			victorymessage();
+	    	}
+		}
+	});
+
+function loosemessage(){
+			$("#statut_partie p").remove();
+			$("#statut_partie").append('<p class="statut">Partie perdu !!</p>');
+			$("#statut_partie p").css("color","red");
+			$("#statut_partie").css("background-color","#dba84c");
+			alert("Vous avez sauté sur une bombes! Aie ça fait mal!");
+}
+
+function victorymessage(){
+	 	alert("Il ne reste plus que des bombes, terrain sécurisé! Félicitation!");
+	 	$("#statut_partie p").remove();
+		$("#statut_partie").append('<p class="statut">Partie gagnée !!</p>');
+		$("#statut_partie p").css("color","green");
+		$("#statut_partie").css("background-color","#dba84c");
+}
+
+function revealbombs(mondemin){
+  	for (var l=0; l<mondemin.length; l++){
+	    for (var m=0; m<mondemin[0].length; m++){
+	    	if(mondemin[l][m]==9){
+		    	$("#X"+l+m).append('<img class="bombe" src="../img/bombe.png" />');
+		    	$("#X"+l+m).css("background-color","red");
+		    	mondemin[l][m]=-9;
+		    }
+	    }
+	}
+}
+
+function checkvictory(mondemin){
+ 	var count = 0;
+ 	var victory = false;
+	for(var k=0; k<nbhauteur; k++){
+	   for(var l=0; l<nblargeur; l++){
+	      if(mondemin[k][l] > 0){
+	      	 count++;
+	      }
+	   }
+	}
+	if (count == nbbombs){
+		victory = true;
+	}
+	return victory;
+}
+
+
+function blankcase(i,j,mondemin){
+ 	var i = parseInt(i);
+ 	var j = parseInt(j);
+
+// Affecte -2 aux cases vides découverte 
+// Affecte -1 aux cases avec un chiffre découvert
+ 	if (mondemin[i][j]==0){	 	
+	 	mondemin[i][j]=-2;
+	 	$("#X"+i+j).css("background-color","#dba84c");
+		// Ligne au dessus
+ 		if (i>0 && j>0){
+ 			blankcase(i-1,j-1,mondemin);
+ 		}
+ 		if (i>0){
+ 			blankcase(i-1,j,mondemin);
+ 		}
+ 		if (i>0 && j<mondemin[0].length-1){
+ 			blankcase(i-1,j+1,mondemin);
+ 		}
+		// Deux sur les cotés
+ 		if (j>0){
+ 			blankcase(i,j-1,mondemin); 			
+ 		}
+ 		if (j<mondemin[0].length-1){
+ 			blankcase(i,j+1,mondemin); 			
+ 		}
+ 		// Ligne au dessous
+ 		if (i<mondemin.length-1 && j>0){
+ 			blankcase(i+1,j-1,mondemin);
+ 		}
+ 		if (i<mondemin.length-1){
+ 			blankcase(i+1,j,mondemin);
+ 		}
+ 		if (i<mondemin.length-1 && j<mondemin[0].length-1){
+ 			blankcase(i+1,j+1,mondemin);
+ 		}
+
+ 	} else if (mondemin[i][j]!=-2 && mondemin[i][j]!=-1){
+ 		$("#X"+i+j).css("background-color","#cc8400");
+ 		$("#X"+i+j).append("<p>"+mondemin[i][j]+"</p>");
+ 		mondemin[i][j]=-1;
+ 	}	
+}
+
+function createdemintab(i,j){
+ 	var mondemin = [];
+	for(var k=0; k<i; k++){
+	   mondemin[k] = [];
+	   for(var l=0; l<j; l++){
+	      mondemin[k][l] = 0;
+	   }
+	}
+	return mondemin;
+}
+
+// Fonction qui retourne un tableau de coordonnées des cases contenant les bombes
+function calculatebomb(i,j,k) {
+// i: largeur
+// j: hauteur
+// k: nbbomb
+    
+    var minNumber = 0;
+    var maxNumber = (i*j)-1;
+    var randomlist = [];
+    var listcoord = [];
+    var count = 0;    
+    while (count<k){
+    	var randomnumber = Math.floor(Math.random() * (maxNumber - minNumber + 1) + minNumber);
+    	if( $.inArray(randomnumber , randomlist) == -1 ){
+			randomlist.push(randomnumber);
+			count++;
+    	}
+	}
+    for (var b=0; b < randomlist.length ; b++){
+    	var coord = [];
+    	coord[0] = Math.floor(randomlist[b]/i);
+    	coord[1] = (randomlist[b] % i);
+		listcoord.push(coord);
+    }
+	return listcoord;
+}
+
+</script>
+{% endblock %}

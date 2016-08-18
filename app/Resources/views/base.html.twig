@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        {% block stylesheets %}{% endblock %}
+        <link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap.min.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ asset('css/stylesheet.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ asset('https://cdn.datatables.net/1.10.12/css/jquery.dataTables.css') }}">
+  
+        <script type="text/javascript" src="{{ asset('js/jquery-2.2.3.min.js') }}" ></script>
+        <script type="text/javascript" src="{{ asset('js/bootstrap.min.js') }}" ></script>
+        <script type="text/javascript" charset="utf8" src="{{ asset('https://cdn.datatables.net/1.10.12/js/jquery.dataTables.js') }}"></script>
+        <script src="{{ asset('https://code.highcharts.com/highcharts.js')}}"></script>
+        <script src="{{ asset('https://code.highcharts.com/modules/exporting.js')}}"></script>      
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+    </head>
+
+    <body>
+            <nav class="navbar navbar-default">
+                <div class="container-fluid">
+                    <!-- Brand and toggle get grouped for better mobile display -->
+                    <div class="navbar-header">
+                      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                      </button>
+                      <a class="navbar-brand" href="#">
+                        <img class="imgglobe" src="{{ asset('img/globe2.png') }}" width="55" height="55" alt="globe">
+                      </a>
+                    </div>
+            
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                      <ul class="nav navbar-nav">
+                        <li><a href="#">Accueil</a></li>
+                        <li><a href="#">About</a></li>
+                        <li class="dropdown">
+                          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">More<span class="caret"></span></a>
+                          <ul class="dropdown-menu">
+                            <li><a href="#">Link 1</a></li>
+                            <li><a href="#">Link 2</a></li>
+                            <li><a href="#">Link 3</a></li>
+                          </ul>
+                        </li>
+                        <li><a href="#">Contact</a></li>
+                      </ul>
+                    </div><!-- /.navbar-collapse -->
+                </div><!-- /.container-fluid -->
+            </nav> 
+            
+            {% block body %}
+            <div class="row testrow">
+                <div class="col-md-4 col-md-offset-1 testcol">
+                    <p>Test</p>
+                </div>
+                <div class="col-md-4 col-md-offset-2 testcol">
+                    <p>Test</p>
+                </div>
+            </div>
+            <div class="row testrow">
+                <div class="col-md-4 col-md-offset-1 testcol">
+                    <p>Test</p>
+                </div>
+                <div class="col-md-4 col-md-offset-2 testcol">
+                    <p>Test</p>
+                </div>
+            </div>
+            {% endblock %}
+
+            
+            <script>
+            $(document).ready( function () {
+                $('#table_id').DataTable();
+            } );
+            </script>
+    </body>
+</html>

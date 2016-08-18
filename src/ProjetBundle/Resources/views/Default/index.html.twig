@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>message creation</h1>
+
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <input type="submit" value="Create" />
+    {{ form_end(form) }}
+
+	<h3>Affichage Liste</h3>    
+	{% if taskslist is defined %}	
+		{% for task in taskslist %}
+			<div class ="displayengagement">
+				<h4>Titre: <b>{{ task['titre'] }}</b> -  commencé le {{ task['datedebut']|date('Y-m-d') }} soit <b>{{ task['nbdays']}}</b> jours et <b>{{ task['nbhours']}}</b> heures</h4>
+			</div>
+		{% endfor %}
+	{% endif %}
+
+{% endblock %}
+

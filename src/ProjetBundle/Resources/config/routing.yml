@@ -1,0 +1,68 @@
+projet_homepage:
+    path:     /
+    defaults: { _controller: ProjetBundle:Default:index }
+
+article:
+    path:     /{id}/article
+    defaults: { _controller: ProjetBundle:Default:article }
+    methods:  [GET, POST]
+
+upload:
+    path:     /upload
+    defaults: { _controller: ProjetBundle:Default:upload }
+    methods:  [GET, POST]
+
+datatable:
+    path:     /datatable
+    defaults: { _controller: ProjetBundle:Default:datatable }
+    methods:  [GET, POST]
+
+js:
+    path:     /js
+    defaults: { _controller: ProjetBundle:Default:js }
+    methods:  [GET, POST]
+
+game:
+    path:     /game
+    defaults: { _controller: ProjetBundle:Default:game }
+    methods:  [GET, POST]
+
+sudoku:
+    path:     /sudoku
+    defaults: { _controller: ProjetBundle:Default:sudoku }
+    methods:  [GET, POST]
+
+demineur:
+    path:     /demineur
+    defaults: { _controller: ProjetBundle:Default:demineur }
+    methods:  [GET, POST]
+
+geoloc:
+    path:     /geoloc
+    defaults: { _controller: ProjetBundle:Default:geoloc }
+    methods:  [GET, POST]
+
+ajax:
+    path:     /ajax
+    defaults: { _controller: ProjetBundle:Default:ajax }
+    methods:  [GET, POST]
+
+chart:
+    path:     /chart
+    defaults: { _controller: ProjetBundle:Default:chart }
+    methods:  [GET, POST]
+
+ville:
+    path:     /ville/
+    defaults: { _controller: ProjetBundle:Default:ville }
+    methods:  [GET, POST]
+
+autocomp:
+    path:     /autocomp/
+    defaults: { _controller: ProjetBundle:Default:autocomp }
+    methods:  [GET, POST]
+
+highcharts:
+    path:     /highcharts/
+    defaults: { _controller: ProjetBundle:Default:highcharts }
+    methods:  [GET, POST]
